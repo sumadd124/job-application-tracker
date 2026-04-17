@@ -1,0 +1,23 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/client"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+model Application {
+  id          Int      @id @default(autoincrement())
+  company     String
+  role        String
+  dateApplied DateTime? @map("date_applied")
+  status      String   @default("Applied") // Prisma MySQL doesn't natively support ENUM mapping easily without manual SQL, so we'll use String and validate in code
+  deadline    DateTime?
+  notes       String?  @db.Text
+
+  @@map("applications")
+}
